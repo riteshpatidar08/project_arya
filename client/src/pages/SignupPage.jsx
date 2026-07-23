@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 function SignupPage() {
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,10 +12,13 @@ function SignupPage() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-     const data = await axios.post('http://localhost:3000/api/v1/auth/register' , formData);
-     console.log(data)
+      const data = await axios.post(
+        'http://localhost:3000/api/v1/auth/register',
+        formData
+      );
+      console.log(data);
 
-     setFormData({...formData , name : '' , email : " " , password : ""})
+      setFormData({ ...formData, name: '', email: ' ', password: '' });
     } catch (error) {
       console.log(error);
     }

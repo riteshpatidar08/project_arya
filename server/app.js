@@ -1,20 +1,21 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const cors = require('cors');
+const userRouter = require('./routes/user.routes.js');
+const eventRouter = require('./routes/event.routes.js');
 
-const userRouter = require('./routes/user.routes.js') 
-const eventRouter = require('./routes/event.routes.js')
-
-const dotenv = require('dotenv')
-app.use(express.json());
+const dotenv = require('dotenv');
 dotenv.config();
-app.use('/uploads' , express.static('uploads'))
 
+app.use(cors());
+
+app.use(express.json());
+
+app.use('/uploads', express.static('uploads'));
 
 mongoose
-  .connect(
-    process.env.MONGODB_URI
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('MONGODB CONNECTED');
   })
@@ -22,11 +23,10 @@ mongoose
     console.log(err);
   });
 
-  // POST /api/v1/auth/register
+// POST /api/v1/auth/register
 
-app.use('/api/v1/auth' , userRouter);
-app.use('/api/v1' , eventRouter )
-
+app.use('/api/v1/auth', userRouter);
+app.use('/api/v1', eventRouter);
 
 // router.post('/register' , reigster)
 

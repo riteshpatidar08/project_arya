@@ -9,6 +9,8 @@ const dotenv = require('dotenv')
 app.use(express.json());
 dotenv.config();
 app.use('/uploads' , express.static('uploads'))
+
+
 mongoose
   .connect(
     process.env.MONGODB_URI

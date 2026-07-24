@@ -3,7 +3,6 @@ import { useState } from 'react';
 import axios from 'axios';
 function LoginPage() {
   const [formData, setFormData] = useState({
-  
     email: '',
     password: '',
   });
@@ -16,9 +15,10 @@ function LoginPage() {
         'http://localhost:3000/api/v1/auth/login',
         formData
       );
-      console.log(data);
-
-      setFormData({ ...formData,  email: ' ', password: '' });
+      console.log(data.data.token);
+      localStorage.setItem('token', data.data.token);
+      localStorage.setItem("user" , JSON.stringify(data.data.user))
+      setFormData({ ...formData, email: ' ', password: '' });
     } catch (error) {
       console.log(error);
     }
@@ -36,7 +36,6 @@ function LoginPage() {
     <div>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-    
         <input
           onChange={handleChange}
           type="email"

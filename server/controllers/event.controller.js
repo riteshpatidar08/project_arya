@@ -1,5 +1,5 @@
 const Event = require('../model/event.model.js');
-const cloudinary = require('../config/cloudinary.js')
+const cloudinary = require('../config/cloudinary.js');
 exports.getEvents = async (req, res) => {
   try {
     const events = await Event.find({ status: 'approved' });
@@ -23,11 +23,10 @@ exports.createEvent = async (req, res) => {
     //NOte handle the banner url here
     console.log(req.file);
 
-
-const result = await cloudinary.uploader.upload(req.file.path , {
-  folder : "nexus-Events"
-})
-console.log(result)
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'nexus-Events',
+    });
+    console.log(result);
 
     const event = await Event.create({
       title,
@@ -36,7 +35,7 @@ console.log(result)
       location,
       date,
       capacity,
-      bannerUrl : result.secure_url
+      bannerUrl: result.secure_url,
     });
 
     res.status(201).json({

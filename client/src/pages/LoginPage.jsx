@@ -1,7 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom'
 function LoginPage() {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -18,6 +20,7 @@ function LoginPage() {
       console.log(data.data.token);
       localStorage.setItem('token', data.data.token);
       localStorage.setItem("user" , JSON.stringify(data.data.user))
+      navigate('/')
       setFormData({ ...formData, email: ' ', password: '' });
     } catch (error) {
       console.log(error);

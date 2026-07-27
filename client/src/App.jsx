@@ -5,10 +5,12 @@ import SignupPage from './pages/SignupPage';
 import Homepage from './pages/Homepage';
 import ProtectedRoutes from './component/ProtectedRoutes';
 import OpenRoutes from './component/OpenRoutes';
-
+import Navbar from './component/Navbar';
+import CreateEventPage from './pages/CreateEventPage';
 function App() {
   return (
     <div>
+      <Navbar/>
       <Routes>
         <Route element={<OpenRoutes/>}>
         <Route path="/login" element={<LoginPage />} />
@@ -21,6 +23,7 @@ function App() {
         {/* accessible when i have token */}
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<Homepage />} />
+          <Route path='/createevent' element={<CreateEventPage/>}/>
           {/* outlet is the child routes  */}
         </Route>
       </Routes>

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import {useLocation} from 'react-router-dom'
 import axios from 'axios';
 import {
   LogIn,
   Eye,
   EyeOff,
-  Key,
   Phone,
   Loader2,
   ArrowRight,
@@ -27,6 +27,7 @@ function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [timeString, setTimeString] = useState('');
 
+console.log(location);
   // Clock effect matching Luma's header timestamp
   useEffect(() => {
     const updateClock = () => {
@@ -75,7 +76,7 @@ function SignupPage() {
     try {
       // 1. Call registration API
       const registerRes = await axios.post(
-        'http://localhost:3000/api/v1/auth/register',
+        `${import.meta.env.VITE_API_URL}/auth/register`,
         formData
       );
 
@@ -85,7 +86,7 @@ function SignupPage() {
         // 2. Perform automatic login for frictionless UX
         try {
           const loginRes = await axios.post(
-            'http://localhost:3000/api/v1/auth/login',
+            `${import.meta.env.VITE_API_URL}/auth/login`,
             {
               email: formData.email,
               password: formData.password,
@@ -127,32 +128,7 @@ function SignupPage() {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_center,_#1f2124_0%,_#131517_100%)] text-white font-sans flex flex-col justify-between selection:bg-white selection:text-black">
       {/* Header */}
-      <header className="flex justify-between items-center px-6 py-4 md:px-12 md:py-6 border-b border-white/[0.03]">
-        <div className="flex items-center gap-2">
-          <Link
-            to="/"
-            className="text-xl font-semibold tracking-tight text-white hover:opacity-90 transition-opacity"
-          >
-            nexus<span className="text-white/50 font-normal">+</span>
-          </Link>
-        </div>
-
-        <div className="flex items-center gap-6 text-sm text-white/60">
-          <span className="hidden sm:inline font-mono text-xs tracking-wider uppercase text-white/40">
-            {timeString}
-          </span>
-          <Link to="/" className="hover:text-white transition-colors">
-            Discover Events
-          </Link>
-          <Link
-            to="/login"
-            className="bg-white/[0.08] hover:bg-white/[0.12] text-white border border-white/[0.08] rounded-full px-4 py-1.5 font-medium transition-all text-xs"
-          >
-            Sign In
-          </Link>
-        </div>
-      </header>
-
+      
       {/* Main Container */}
       <main className="flex-1 flex items-center justify-center p-4 my-8">
         {/* Glassmorphic Card */}

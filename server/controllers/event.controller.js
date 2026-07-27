@@ -26,7 +26,7 @@ exports.createEvent = async (req, res) => {
     const { title, description, category, location, date, capacity } = req.body;
 
     //NOte handle the banner url here
-    console.log(req.file);
+    console.log(req.file); //undefined
 
     const result = await cloudinary.uploader.upload(req.file.path, {
       folder: 'nexus-Events',
@@ -50,6 +50,7 @@ exports.createEvent = async (req, res) => {
         'Event Created Successfully , It will be visible  after the admin approval',
     });
   } catch (error) {
+    console.log(error.message)
     res.status(500).json({
       success: false,
       message: error.message,

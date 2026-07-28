@@ -33,6 +33,9 @@ mongoose
 app.use('/api/v1/auth', userRouter);
 app.use('/api/v1', eventRouter);
 
+app.get('/' , (req,res)=>{
+  res.send('<h1>Server Deployed 🚀🚀🚀</h1>')
+})
 // router.post('/register' , reigster)
 
 app.listen(process.env.PORT, () => {

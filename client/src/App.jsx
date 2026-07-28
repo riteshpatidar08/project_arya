@@ -7,26 +7,31 @@ import ProtectedRoutes from './component/ProtectedRoutes';
 import OpenRoutes from './component/OpenRoutes';
 import Navbar from './component/Navbar';
 import CreateEventPage from './pages/CreateEventPage';
+import Footer from './component/Footer';
+
 function App() {
   return (
-    <div>
-      <Navbar/>
-      <Routes>
-        <Route element={<OpenRoutes/>}>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        </Route>
+    <div className="min-h-screen flex flex-col justify-between">
+      <div className="flex-1 flex flex-col">
+        <Navbar />
+        <div className="flex-1">
+          <Routes>
+            <Route element={<OpenRoutes />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+            </Route>
 
+            <Route path="/" element={<Homepage />} />
 
-     
-
-        {/* accessible when i have token */}
-        <Route element={<ProtectedRoutes />}>
-          <Route path="/" element={<Homepage />} />
-          <Route path='/createevent' element={<CreateEventPage/>}/>
-          {/* outlet is the child routes  */}
-        </Route>
-      </Routes>
+            {/* accessible when i have token */}
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/createevent" element={<CreateEventPage />} />
+              {/* outlet is the child routes  */}
+            </Route>
+          </Routes>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 }

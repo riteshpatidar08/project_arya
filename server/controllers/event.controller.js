@@ -1,6 +1,7 @@
 const Event = require('../model/event.model.js');
 const cloudinary = require('../config/cloudinary.js');
-
+const User = require('../model/user.model.js');
+const bcrypt = require('bcrypt');
 exports.getEvents = async (req, res) => {
   try {
     const events = await Event.find({ status: 'approved' }).populate(
@@ -50,7 +51,7 @@ exports.createEvent = async (req, res) => {
         'Event Created Successfully , It will be visible  after the admin approval',
     });
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -83,18 +84,30 @@ exports.getEventById = async (req, res) => {
 exports.bookevent = async (req, res) => {
   try {
     const { id } = req.params;
+    const { email, name, password } = req.body;
+    console.log(id);
     const event = await Event.findById(id);
     console.log(event);
 
-    if (event.attendee.some((a) => a.toString() === req.user.id.toString())) {
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      const hashPassword = await bcrypt.hash(password, 10);
+      user = await User.create({ name, email, password: hashPassword });
+    }
+
+    console.log(user);
+
+    if (event.attendee.some((a) => a.toString() === user._id.toString())) {
       return res.status(409).json({
         message: 'You have already Booked this event',
       });
     }
-    event.attendee.push(req.user.id);
+    event.attendee.push(user._id);
     await event.save();
     res.json({
-      message: 'Booking confirmed , Please check your mail',
+      message:
+        'Booking confirmed , Please check your mail , Use your password to login in the portel to see your booking',
     });
   } catch (error) {
     res.status(500).json({

@@ -20,7 +20,7 @@ router.post(
   upload.single('bannerUrl'),
   createEvent
 );
-router.post('/bookevent/:id', verifyToken, checkRole(['attendee']), bookevent);
+router.post('/bookevent/:id', bookevent);
 
 router.patch(
   '/events/:id/status',

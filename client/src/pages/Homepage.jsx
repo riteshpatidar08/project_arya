@@ -11,7 +11,9 @@ import {
   Check,
   AlertCircle,
   Clock,
+  ArrowRight,
 } from 'lucide-react';
+import HeroSection from '../component/HeroSection';
 
 function Homepage() {
   const [eventData, setEventData] = useState([]);
@@ -210,38 +212,19 @@ function Homepage() {
           </div>
         )}
 
+        {/* Full-width Hero Carousel Section */}
+        <HeroSection
+          events={eventData}
+          currentUser={currentUser}
+          isOrganizer={isOrganizer}
+          onBookEvent={handleBookEvent}
+          bookingLoading={bookingLoading}
+        />
+
         {/* Responsive Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
-          {/* Left Column: some text & filter category */}
+          {/* Left Column: filter category */}
           <div className="lg:col-span-1 sticky top-20 flex flex-col gap-6">
-            {/* "some text" welcome/info block */}
-            <div className="px-1 py-2">
-              <div className="flex items-center gap-2 mb-2.5">
-                <Sparkles className="w-4 h-4 text-[#f2ca77]" />
-                <span className="text-[24px]  font-semibold uppercase tracking-wider text-[#f2ca77]/80">
-                  Nexus Community
-                </span>
-              </div>
-              <h2 className="text-xl font-bold tracking-tight text-white mb-2">
-                Hello, {currentUser?.name || 'Explorer'}!
-              </h2>
-              <p className="text-xs text-white/50 leading-relaxed mb-4">
-                Discover the best tech panels, workshops, and community socials on the Nexus network. Host your own gatherings or join spaces that inspire you.
-              </p>
-              {/* <div className="flex items-center justify-between text-[11px] pt-3 border-t border-white/[0.06] text-white/40">
-                <span className="font-mono uppercase tracking-wider">
-                  Role: {userRole || 'Guest'}
-                </span>
-                <button
-                  onClick={handleLogOut}
-                  className="hover:text-red-400 flex items-center gap-1.5 transition-colors duration-200 font-medium cursor-pointer"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                  Logout
-                </button>
-              </div> */}
-            </div>
-
             {/* "filter category" sidebar block */}
             <div className="px-1">
               <label className="text-[11px] font-semibold uppercase tracking-wider text-white/50 block mb-3">
@@ -283,6 +266,7 @@ function Homepage() {
           {/* Right Column: search & event list */}
           <div className="lg:col-span-3 flex flex-col gap-6">
             {/* "search" block */}
+
             <div className="space-y-2.5">
               <label className="text-[11px] font-semibold uppercase tracking-wider text-white/50 block">
                 Search Events
@@ -416,36 +400,19 @@ function Homepage() {
                         </div>
                       </div>
 
-                      {/* Register Button: Hidden for Organizers */}
-                      {!isOrganizer && (
-                        <div className="p-5 md:p-6 shrink-0 flex items-center justify-end md:justify-center border-t md:border-t-0 md:border-l border-white/[0.04] bg-white/[0.01]">
-                          {event.attendee?.includes(currentUser?._id) ? (
-                            <div className="w-full md:w-auto bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-5 py-2.5 rounded-xl font-medium text-xs flex items-center justify-center gap-1.5 select-none">
-                              <Check className="w-4 h-4" />
-                              <span>Registered</span>
-                            </div>
-                          ) : (
-                            <button
-                              onClick={() => handleBookEvent(event._id)}
-                              disabled={bookingLoading === event._id}
-                              className="w-full md:w-auto bg-white text-black hover:bg-white/95 active:scale-[0.98] px-5 py-2.5 rounded-xl font-semibold text-xs transition-all duration-200 shadow-md flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
-                            >
-                              {bookingLoading === event._id ? (
-                                <>
-                                  <div className="w-3.5 h-3.5 rounded-full border-2 border-black/20 border-t-black animate-spin"></div>
-                                  <span>Registering...</span>
-                                </>
-                              ) : (
-                                <>
-                                  <span>Register</span>
-                                </>
-                              )}
-                            </button>
-                          )}
-                        </div>
-                      )}
+                      {/* Navigation Link to Event Details */}
+                      <div className="p-5 md:p-6 shrink-0 flex items-center justify-end md:justify-center border-t md:border-t-0 md:border-l border-white/[0.04] bg-white/[0.01]">
+                        <button
+                          onClick={() => navigate(`/event/${event._id}`)}
+                          className="w-full md:w-auto text-[#f2ca77] hover:text-[#f2ca77]/80 hover:bg-[#f2ca77]/10 border border-[#f2ca77]/30 px-4 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer"
+                        >
+                          <span>Click here to register</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   ))}
+
                 </div>
               )}
             </div>

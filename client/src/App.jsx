@@ -8,7 +8,7 @@ import OpenRoutes from './component/OpenRoutes';
 import Navbar from './component/Navbar';
 import CreateEventPage from './pages/CreateEventPage';
 import Footer from './component/Footer';
-
+import EventDetailPage from './pages/EventDetailPage';
 function App() {
   return (
     <div className="min-h-screen flex flex-col justify-between">
@@ -22,7 +22,7 @@ function App() {
             </Route>
 
             <Route path="/" element={<Homepage />} />
-
+ <Route path='/event/:id' element={<EventDetailPage/>}/>
             {/* accessible when i have token */}
             <Route element={<ProtectedRoutes />}>
               <Route path="/createevent" element={<CreateEventPage />} />

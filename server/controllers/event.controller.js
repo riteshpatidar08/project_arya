@@ -2,6 +2,7 @@ const Event = require('../model/event.model.js');
 const cloudinary = require('../config/cloudinary.js');
 const User = require('../model/user.model.js');
 const bcrypt = require('bcrypt');
+
 exports.getEvents = async (req, res) => {
   try {
     const events = await Event.find({ status: 'approved' }).populate(
@@ -104,6 +105,7 @@ exports.bookevent = async (req, res) => {
       });
     }
     event.attendee.push(user._id);
+    event.capacity += 1 ;
     await event.save();
     res.json({
       message:

@@ -1,0 +1,68 @@
+const Event = require('../model/event.model.js');
+const User = require('../model/user.model.js');
+exports.getAllEvents = async (req, res) => {
+  try {
+    const events = await Event.find()
+      .sort({ createdAt: -1 })
+      .populate('organizer', 'name email');
+    res.json({
+      success: true,
+      length: events.length,
+      events,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select('-password').sort({ createAt: -1 });
+    res.json({
+      success: true,
+      length: users.length,
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.getStats = async (req, res) => {
+  try {
+    const { status } = req.query;
+    console.log(status);
+
+    const match = {};
+    
+    if (status) {
+      match.status = status;
+    }
+    const result = await Event.aggregate([
+      //stage 1 match the doucment with status pending , approved , rejected
+      { $match: match },
+      {
+        $facet: {
+          eventByStatus: [
+            { $group: { _id: '$status', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+          ],
+          eventByCategory: [
+            { $group: { _id: '$category', count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+          ],
+        },
+      },
+    ]);
+
+    res.json({
+      data: result,
+    });
+  } catch (error) {}
+};

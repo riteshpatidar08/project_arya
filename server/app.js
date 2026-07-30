@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const userRouter = require('./routes/user.routes.js');
 const eventRouter = require('./routes/event.routes.js');
-
+const adminRouter = require('./routes/admin.routes.js')
 const dotenv = require('dotenv');
 const checkRole = require('./middleware/checkRole.js');
 const verifyToken = require('./middleware/verifyToken.js')
@@ -32,6 +32,7 @@ mongoose
 
 app.use('/api/v1/auth', userRouter);
 app.use('/api/v1', eventRouter);
+app.use('/api/v1/admin' , adminRouter)
 
 app.get('/' , (req,res)=>{
   res.send('<h1>Server Deployed 🚀🚀🚀</h1>')

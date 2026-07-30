@@ -4,14 +4,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const userRouter = require('./routes/user.routes.js');
 const eventRouter = require('./routes/event.routes.js');
-const adminRouter = require('./routes/admin.routes.js')
+const adminRouter = require('./routes/admin.routes.js');
 const dotenv = require('dotenv');
 const checkRole = require('./middleware/checkRole.js');
-const verifyToken = require('./middleware/verifyToken.js')
+const verifyToken = require('./middleware/verifyToken.js');
 const { updateStatus } = require('./controllers/event.controller.js');
 dotenv.config();
 
-app.use(cors())
+app.use(cors());
 
 app.use(express.json());
 
@@ -29,14 +29,13 @@ mongoose
 // POST /api/v1/auth/register
 // app.patch('/events/:id/status',verifyToken , checkRole(['admin']) , updateStatus) ;
 
-
 app.use('/api/v1/auth', userRouter);
 app.use('/api/v1', eventRouter);
-app.use('/api/v1/admin' , adminRouter)
+app.use('/api/v1/admin', adminRouter);
 
-app.get('/' , (req,res)=>{
-  res.send('<h1>Server Deployed 🚀🚀🚀</h1>')
-})
+app.get('/', (req, res) => {
+  res.send('<h1>Server Deployed 🚀🚀🚀</h1>');
+});
 // router.post('/register' , reigster)
 
 app.listen(process.env.PORT, () => {

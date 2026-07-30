@@ -40,10 +40,11 @@ exports.getStats = async (req, res) => {
     console.log(status);
 
     const match = {};
-    
+
     if (status) {
       match.status = status;
     }
+    //aggregation pipeline
     const result = await Event.aggregate([
       //stage 1 match the doucment with status pending , approved , rejected
       { $match: match },

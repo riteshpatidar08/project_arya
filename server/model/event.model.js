@@ -37,6 +37,11 @@ const eventSchema = new mongoose.Schema({
   attendee: [{
     type : mongoose.Schema.Types.ObjectId ,
     ref : 'User'
+  }],
+  embedding : [{
+    type : [Number] ,
+    select : false ,
+    default : undefined 
   }]
 } ,   { timestamps: true });
 

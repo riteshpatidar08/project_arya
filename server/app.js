@@ -5,6 +5,7 @@ const cors = require('cors');
 const userRouter = require('./routes/user.routes.js');
 const eventRouter = require('./routes/event.routes.js');
 const adminRouter = require('./routes/admin.routes.js');
+const chatRouter = require('./routes/chat.routes.js')
 const dotenv = require('dotenv');
 const checkRole = require('./middleware/checkRole.js');
 const verifyToken = require('./middleware/verifyToken.js');
@@ -13,6 +14,7 @@ dotenv.config();
 
 app.use(cors());
 
+// require('./seeds/rag.js')()
 app.use(express.json());
 
 app.use('/uploads', express.static('uploads'));
@@ -32,7 +34,7 @@ mongoose
 app.use('/api/v1/auth', userRouter);
 app.use('/api/v1', eventRouter);
 app.use('/api/v1/admin', adminRouter);
-
+app.use('/api/v1' , chatRouter)
 app.get('/', (req, res) => {
   res.send('<h1>Server Deployed 🚀🚀🚀</h1>');
 });

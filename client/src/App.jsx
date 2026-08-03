@@ -9,6 +9,11 @@ import Navbar from './component/Navbar';
 import CreateEventPage from './pages/CreateEventPage';
 import Footer from './component/Footer';
 import EventDetailPage from './pages/EventDetailPage';
+import Chatbot from './component/Chatbot';
+import AdminRoute from './component/AdminRoute';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import MyEventsPage from './pages/MyEventsPage';
+import MyBookingsPage from './pages/MyBookingsPage';
 function App() {
   return (
     <div className="min-h-screen flex flex-col justify-between">
@@ -26,12 +31,19 @@ function App() {
             {/* accessible when i have token */}
             <Route element={<ProtectedRoutes />}>
               <Route path="/createevent" element={<CreateEventPage />} />
+              <Route path="/my-events" element={<MyEventsPage />} />
+              <Route path="/my-bookings" element={<MyBookingsPage />} />
               {/* outlet is the child routes  */}
+            </Route>
+
+            <Route element={<AdminRoute />}>
+              <Route path="/admin" element={<AdminDashboardPage />} />
             </Route>
           </Routes>
         </div>
       </div>
       <Footer />
+      <Chatbot />
     </div>
   );
 }

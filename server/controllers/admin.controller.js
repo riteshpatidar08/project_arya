@@ -20,7 +20,7 @@ exports.getAllEvents = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password').sort({ createAt: -1 });
+    const users = await User.find().select('-password').sort({ createdAt: -1 });
     res.json({
       success: true,
       length: users.length,
@@ -65,5 +65,49 @@ exports.getStats = async (req, res) => {
     res.json({
       data: result,
     });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.updateUserRole = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
+    const allowedRoles = ['attendee', 'organizer', 'admin'];
+
+    if (!allowedRoles.includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid role',
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      id,
+      { role },
+      { new: true }
+    ).select('-password');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: `Role updated to ${role}`,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };

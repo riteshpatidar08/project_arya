@@ -1,18 +1,24 @@
 const express = require('express');
 
 const router = express.Router();
-console.log(require('../controllers/admin.controller.js'));
 const {
   getAllEvents,
   getAllUsers,
   getStats,
+  updateUserRole,
 } = require('../controllers/admin.controller.js');
 const verifyToken = require('../middleware/verifyToken.js');
 const checkRole = require('../middleware/checkRole.js');
 
 router.get('/events', verifyToken, checkRole(['admin']), getAllEvents);
 router.get('/users', verifyToken, checkRole(['admin']), getAllUsers);
-router.get('/stats', getStats);
+router.get('/stats', verifyToken, checkRole(['admin']), getStats);
+router.patch(
+  '/users/:id/role',
+  verifyToken,
+  checkRole(['admin']),
+  updateUserRole
+);
 module.exports = router;
 
 // http://localhost:3000/api/v1/register  , {}

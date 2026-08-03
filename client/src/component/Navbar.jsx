@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { User, Calendar, LogOut, ChevronDown } from 'lucide-react';
+import { User, Calendar, LogOut, ChevronDown, ShieldCheck } from 'lucide-react';
 
 function Navbar() {
   const location = useLocation();
@@ -119,13 +119,32 @@ function Navbar() {
                     </Link>
 
                     <Link
-                      to="/my-events"
+                      to={
+                        user.role === 'organizer' || user.role === 'admin'
+                          ? '/my-events'
+                          : '/my-bookings'
+                      }
                       onClick={() => setDropdownOpen(false)}
                       className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-white/70 hover:text-white hover:bg-white/[0.04] transition-colors"
                     >
                       <Calendar className="w-4 h-4 text-white/30" />
-                      <span>My Events</span>
+                      <span>
+                        {user.role === 'organizer' || user.role === 'admin'
+                          ? 'My Events'
+                          : 'My Bookings'}
+                      </span>
                     </Link>
+
+                    {user.role === 'admin' && (
+                      <Link
+                        to="/admin"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-white/70 hover:text-white hover:bg-white/[0.04] transition-colors"
+                      >
+                        <ShieldCheck className="w-4 h-4 text-white/30" />
+                        <span>Admin Dashboard</span>
+                      </Link>
+                    )}
 
                     <div className="h-[1px] bg-white/[0.04] my-1.5"></div>
 
